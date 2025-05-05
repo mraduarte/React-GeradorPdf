@@ -10,14 +10,25 @@ pdfMake.vfs = pdfFonts.vfs;
 const GeneratePDF = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [fontSize, setFontSize] = useState("12");
+  const [fontColor, setFontColor] = useState("#000000");
+  const [isBold, setIsBold] = useState(false);
 
   const generatePdf = () => {
-    //Configurações do PDF
+    const customStyles = {
+      fontSize: parseInt(fontSize),
+      color: fontColor,
+      bold: isBold,
+    };
+
     const docDefinition = {
       content: [
-        { text: `Título: ${title}` },
-        { text: `Descrição: ${description}` },
+        { text: `Título: ${title}`, style: customStyles },
+        { text: `Descrição: ${description}`, style: customStyles },
       ],
+      styles: {
+        customStyles: customStyles,
+      },
     };
 
     pdfMake.createPdf(docDefinition).download();
@@ -43,9 +54,18 @@ const GeneratePDF = () => {
           onChange={(e) => setDescription(e.target.value)}
         ></input>
       </label>
-      <TextStyleConfig />
+      <TextStyleConfig
+        fontColor={fontColor}
+        fontSize={fontSize}
+        setFontColor={setFontColor}
+        setFontSize={setFontSize}
+        isBold={isBold}
+        setIsBold={setIsBold}
+      />
       <ImageUpload />
-      <button className="button" onClick={generatePdf}>Gerar PDF</button>
+      <button className="button" onClick={generatePdf}>
+        Gerar PDF
+      </button>
     </div>
   );
 };
