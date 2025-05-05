@@ -1,6 +1,6 @@
 const TextStyleConfig = () => {
   return (
-    <div className="text-style-config">
+    <div className="textStyleConfig">
       <label className="configLabel">
         Font size:
         <input type="text" className="input" />
