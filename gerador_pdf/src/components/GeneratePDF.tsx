@@ -8,11 +8,12 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.vfs;
 
 const GeneratePDF = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [fontSize, setFontSize] = useState("12");
-  const [fontColor, setFontColor] = useState("#000000");
-  const [isBold, setIsBold] = useState(false);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [fontSize, setFontSize] = useState<string>("12");
+  const [fontColor, setFontColor] = useState<string>("#000000");
+  const [isBold, setIsBold] = useState<boolean>(false);
+  const [image, setImage] = useState<string | null>(null);
 
   const generatePdf = () => {
     const customStyles = {
@@ -25,6 +26,7 @@ const GeneratePDF = () => {
       content: [
         { text: `Título: ${title}`, style: customStyles },
         { text: `Descrição: ${description}`, style: customStyles },
+        ...(image ? [{ image: image, width: 150 }] : []),
       ],
       styles: {
         customStyles: customStyles,
@@ -62,7 +64,7 @@ const GeneratePDF = () => {
         isBold={isBold}
         setIsBold={setIsBold}
       />
-      <ImageUpload />
+      <ImageUpload setImage={setImage}/>
       <button className="button" onClick={generatePdf}>
         Gerar PDF
       </button>
